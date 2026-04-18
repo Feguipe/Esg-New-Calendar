@@ -48,13 +48,14 @@ def render_article_card(article: dict) -> str:
     badge = _bank_badge(banco_tag, bank_color)
 
     ai_badge = (
-        '<span style="font-size:0.55rem;background:#e8f5e9;color:#2e7d32;'
+        '<span style="font-size:0.55rem;background:rgba(46,125,50,0.2);color:#4caf50;'
         'border-radius:3px;padding:1px 4px;margin-left:4px;">AI✓</span>'
         if article.get("ai_verified") else ""
     )
 
     return (
-        f'<div class="esg-card" style="border-left:4px solid {bank_color};background:{bank_light};">'
+        f'<div class="esg-card" style="border-left:4px solid {bank_color};'
+        f'background:color-mix(in srgb, {bank_color} 15%, transparent);">'
         f'<div class="card-tag" style="display:flex;align-items:center;">'
         f'{badge}'
         f'<span>{banco} · </span>'
