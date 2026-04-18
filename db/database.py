@@ -196,10 +196,15 @@ def count_by_bank(
     conn: sqlite3.Connection,
     start_date: date,
     end_date: date,
+    banks: list[str] | None = None,
     esg_tags: list[str] | None = None,
 ) -> dict[str, int]:
     sql = "SELECT banco_tag, COUNT(*) FROM news WHERE data BETWEEN ? AND ? AND is_fake_flag = 0"
     params: list = [str(start_date), str(end_date)]
+    if banks:
+        placeholders = ",".join("?" * len(banks))
+        sql += f" AND banco_tag IN ({placeholders})"
+        params.extend(banks)
     if esg_tags:
         placeholders = ",".join("?" * len(esg_tags))
         sql += f" AND esg_tag IN ({placeholders})"

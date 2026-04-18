@@ -42,13 +42,20 @@ def main():
 
     selected_banks, selected_esg, (month_start, month_end) = render_sidebar_filters()
 
+    from config.settings import BANK_DISPLAY_NAMES, BANK_COLORS
     with get_connection(DB_PATH) as conn:
-        bank_counts = count_by_bank(conn, month_start, month_end, selected_esg if selected_esg else None)
+        bank_counts = count_by_bank(
+            conn, month_start, month_end,
+            banks=selected_banks if selected_banks else None,
+            esg_tags=selected_esg if selected_esg else None,
+        )
+
+    filtered_total = sum(bank_counts.values())
+    st.sidebar.metric("Notícias no período", filtered_total)
 
     if bank_counts:
         st.sidebar.markdown("---")
         st.sidebar.markdown("**Notícias por banco**")
-        from config.settings import BANK_DISPLAY_NAMES, BANK_COLORS
         for bank in selected_banks or list(BANK_DISPLAY_NAMES.keys()):
             count = bank_counts.get(bank, 0)
             if count > 0:
