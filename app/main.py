@@ -38,8 +38,6 @@ def main():
         )
         st.stop()
 
-    st.sidebar.metric("Total de notícias", total)
-
     selected_banks, selected_esg = render_sidebar_filters()
 
     search_query = render_search_bar()
