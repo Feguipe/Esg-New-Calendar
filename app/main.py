@@ -83,13 +83,6 @@ def main():
                     unsafe_allow_html=True,
                 )
 
-    # Main content — calendar only, no title
-    st.markdown(
-        f'<h2 style="margin:0 0 12px;font-size:1.4rem;font-weight:700;">'
-        f'{MONTHS_PT[month_start.month - 1]} {month_start.year}</h2>',
-        unsafe_allow_html=True,
-    )
-
     with st.spinner("Carregando notícias..."):
         with get_connection(DB_PATH) as conn:
             articles = query_articles(

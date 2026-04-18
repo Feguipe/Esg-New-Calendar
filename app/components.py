@@ -24,13 +24,8 @@ def render_month_nav() -> tuple[date, date]:
     at_min = (year == today.year and month == 1)
     at_max = (year == today.year and month == today.month)
 
-    # Navigation rendered in sidebar
-    st.sidebar.markdown(
-        '<div class="sidebar-section-title">Período</div>',
-        unsafe_allow_html=True,
-    )
-
-    col_prev, col_label, col_next = st.sidebar.columns([1, 3, 1])
+    # Navigation rendered in main body
+    col_prev, col_label, col_next = st.columns([1, 4, 1])
 
     with col_prev:
         if st.button("◀", disabled=at_min, use_container_width=True, key="nav_prev"):
@@ -43,7 +38,7 @@ def render_month_nav() -> tuple[date, date]:
 
     with col_label:
         with st.popover(
-            f"{MONTHS_PT[month - 1][:3]} {year}",
+            f"{MONTHS_PT[month - 1]} {year}",
             use_container_width=True,
         ):
             st.markdown("**Ir para mês/ano**")
