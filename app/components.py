@@ -98,8 +98,9 @@ def render_sidebar_filters() -> tuple[list[str], list[str]]:
     selected_bank_names = st.sidebar.multiselect(
         "Bancos",
         options=all_bank_names,
-        default=all_bank_names,
+        default=[],
         label_visibility="collapsed",
+        placeholder="Todos os bancos",
     )
     selected_banks = [b for b in all_banks if BANK_DISPLAY_NAMES[b] in selected_bank_names]
 
