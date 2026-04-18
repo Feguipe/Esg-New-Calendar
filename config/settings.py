@@ -90,6 +90,22 @@ ESG_KEYWORDS = {
     ],
 }
 
+# Terms used to detect bank mentions in article text (for multi-bank badge)
+BANK_MENTION_TERMS = {
+    "itau":      ["itaú", "itau", "itaúbba", "itaubba"],
+    "bradesco":  ["bradesco"],
+    "santander": ["santander"],
+    "bb":        ["banco do brasil", "bb investimentos"],
+    "caixa":     ["caixa econômica", "caixa economica", "cef"],
+    "btg":       ["btg pactual", "btg"],
+    "nubank":    ["nubank", "nu holdings"],
+    "safra":     ["banco safra", "safra bank"],
+    "xp":        ["xp investimentos", "xp inc"],
+    "inter":     ["banco inter", "inter bank"],
+    "c6":        ["c6 bank", "c6bank"],
+    "sicoob":    ["sicoob"],
+}
+
 BANK_DISPLAY_NAMES = {
     "itau":      "Itaú",
     "bradesco":  "Bradesco",

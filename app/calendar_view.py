@@ -6,7 +6,7 @@ import streamlit as st
 
 from config.settings import (
     ESG_COLORS, ESG_EMOJIS, BANK_DISPLAY_NAMES,
-    BANK_COLORS, BANK_INITIALS,
+    BANK_COLORS, BANK_INITIALS, BANK_MENTION_TERMS,
 )
 
 _DAYS_PT = ["Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"]
@@ -19,6 +19,17 @@ def build_month_grid(year: int, month: int) -> list[list[date | None]]:
         [date(year, month, day) if day != 0 else None for day in week]
         for week in cal
     ]
+
+
+def _detect_mentioned_banks(article: dict, primary_tag: str) -> list[str]:
+    text = f"{article.get('titulo', '')} {article.get('resumo', '') or ''}".lower()
+    mentioned = []
+    for tag, terms in BANK_MENTION_TERMS.items():
+        if tag == primary_tag:
+            continue
+        if any(term in text for term in terms):
+            mentioned.append(tag)
+    return mentioned
 
 
 def _bank_badge(banco_tag: str, bank_color: str) -> str:
@@ -70,6 +81,22 @@ def render_article_card(article: dict) -> str:
 
     badge = _bank_badge(banco_tag, bank_color)
 
+    mentioned_banks = _detect_mentioned_banks(article, banco_tag)
+    extra_badges = ""
+    if mentioned_banks:
+        extra_badges = '<span style="margin-left:4px;display:inline-flex;gap:2px;align-items:center;">'
+        for mb in mentioned_banks:
+            mc = BANK_COLORS.get(mb, "#6c757d")
+            mn = BANK_DISPLAY_NAMES.get(mb, mb)
+            mi = BANK_INITIALS.get(mb, mb[:2].upper())
+            extra_badges += (
+                f'<span title="Menciona: {mn}" style="display:inline-flex;align-items:center;'
+                f'justify-content:center;width:16px;height:16px;border-radius:4px;'
+                f'background:{mc};color:#fff;font-size:0.50rem;font-weight:800;'
+                f'opacity:0.75;">{mi}</span>'
+            )
+        extra_badges += '</span>'
+
     ai_badge = (
         '<span style="font-size:0.55rem;background:rgba(46,125,50,0.2);color:#4caf50;'
         'border-radius:3px;padding:1px 4px;margin-left:4px;">AI✓</span>'
@@ -81,11 +108,12 @@ def render_article_card(article: dict) -> str:
     return (
         f'<div class="esg-card" style="border-left:4px solid {bank_color};'
         f'background:color-mix(in srgb, {bank_color} 15%, transparent);">'
-        f'<div class="card-tag" style="display:flex;align-items:center;">'
+        f'<div class="card-tag" style="display:flex;align-items:center;flex-wrap:wrap;gap:2px;">'
         f'{badge}'
         f'<span>{banco} · </span>'
         f'<span style="background:{esg_color};color:#fff;border-radius:3px;'
         f'padding:1px 5px;font-size:0.62rem;margin-left:3px;">{emoji} {tag}</span>'
+        f'{extra_badges}'
         f'{ai_badge}'
         f'</div>'
         f'<div><a href="{link}" target="_blank" title="{full_title}">{titulo}</a></div>'
