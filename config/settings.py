@@ -53,6 +53,44 @@ BANK_QUERIES = {
         "Sicoob ESG", "Sicoob sustentabilidade",
         "Sicoob social", "Sicoob cooperativa verde",
     ],
+    "bnb": [
+        "Banco do Nordeste ESG", "Banco do Nordeste sustentabilidade",
+        "Banco do Nordeste social", "BNB verde", "BNB ambiental",
+        "Banco do Nordeste meio ambiente",
+    ],
+    "brb": [
+        "BRB ESG", "BRB sustentabilidade", "Banco de Brasília ESG",
+        "BRB verde", "BRB social",
+    ],
+    "original": [
+        "Banco Original ESG", "Banco Original sustentabilidade",
+        "Banco Original verde", "Banco Original social",
+    ],
+    "pan": [
+        "Banco Pan ESG", "Banco Pan sustentabilidade",
+        "Banco Pan social", "Banco Pan inclusão financeira",
+    ],
+    "bmg": [
+        "Banco BMG ESG", "Banco BMG sustentabilidade",
+        "Banco BMG social", "BMG inclusão",
+    ],
+    "agibank": [
+        "Agibank ESG", "Agibank sustentabilidade",
+        "Agibank social", "Agibank inclusão financeira",
+    ],
+    "picpay": [
+        "PicPay Bank ESG", "PicPay sustentabilidade",
+        "PicPay social", "PicPay impacto", "PicPay inclusão",
+    ],
+    "bs2": [
+        "Banco BS2 ESG", "BS2 sustentabilidade",
+        "BS2 social", "BS2 verde",
+    ],
+    "bv": [
+        "Banco BV ESG", "Banco BV sustentabilidade",
+        "Banco Votorantim ESG", "BV financiamentos verdes",
+        "Banco BV verde", "Banco BV social",
+    ],
 }
 
 ESG_KEYWORDS = {
@@ -104,6 +142,15 @@ BANK_MENTION_TERMS = {
     "inter":     ["banco inter", "inter bank"],
     "c6":        ["c6 bank", "c6bank"],
     "sicoob":    ["sicoob"],
+    "bnb":       ["banco do nordeste", "bnb"],
+    "brb":       ["brb", "banco de brasília", "banco de brasilia"],
+    "original":  ["banco original"],
+    "pan":       ["banco pan", "pan financeira"],
+    "bmg":       ["banco bmg", "bmg"],
+    "agibank":   ["agibank"],
+    "picpay":    ["picpay bank", "picpay"],
+    "bs2":       ["banco bs2", "bs2"],
+    "bv":        ["banco bv", "banco votorantim", "bv financeira"],
 }
 
 BANK_DISPLAY_NAMES = {
@@ -119,6 +166,15 @@ BANK_DISPLAY_NAMES = {
     "inter":     "Inter",
     "c6":        "C6 Bank",
     "sicoob":    "Sicoob",
+    "bnb":       "Banco do Nordeste",
+    "brb":       "BRB",
+    "original":  "Banco Original",
+    "pan":       "Banco Pan",
+    "bmg":       "Banco BMG",
+    "agibank":   "Agibank",
+    "picpay":    "PicPay Bank",
+    "bs2":       "Banco BS2",
+    "bv":        "Banco BV",
 }
 
 # Official brand colors (primary color for card border)
@@ -135,6 +191,15 @@ BANK_COLORS = {
     "inter":     "#FF7A00",
     "c6":        "#242424",
     "sicoob":    "#007A3D",
+    "bnb":       "#007B40",
+    "brb":       "#005B9A",
+    "original":  "#00884A",
+    "pan":       "#FF4B00",
+    "bmg":       "#E30613",
+    "agibank":   "#FF6B00",
+    "picpay":    "#21C25E",
+    "bs2":       "#0050A0",
+    "bv":        "#005BAA",
 }
 
 # Lightened brand colors for card backgrounds
@@ -151,6 +216,15 @@ BANK_COLORS_LIGHT = {
     "inter":     "#FFE4CC",
     "c6":        "#D8D8D8",
     "sicoob":    "#CCE8D9",
+    "bnb":       "#CCE8D8",
+    "brb":       "#CCE0F0",
+    "original":  "#CCE8D8",
+    "pan":       "#FFE0CC",
+    "bmg":       "#FAD0D0",
+    "agibank":   "#FFE4CC",
+    "picpay":    "#D0F5E0",
+    "bs2":       "#CCE0F5",
+    "bv":        "#CCE0F5",
 }
 
 # Iniciais dos bancos para o badge SVG inline (não depende de URL externa)
@@ -167,6 +241,15 @@ BANK_INITIALS = {
     "inter":     "IN",
     "c6":        "C6",
     "sicoob":    "SC",
+    "bnb":       "BN",
+    "brb":       "BR",
+    "original":  "OR",
+    "pan":       "PN",
+    "bmg":       "BG",
+    "agibank":   "AG",
+    "picpay":    "PP",
+    "bs2":       "B2",
+    "bv":        "BV",
 }
 
 # Whitelist fechada — jornais renomados, reguladores, entidades do setor e canais
@@ -242,6 +325,15 @@ TRUSTED_DOMAINS = {
     "bancointer.com.br",
     "c6bank.com.br",
     "sicoob.com.br",
+    "bnb.gov.br",
+    "brb.com.br",
+    "original.com.br",
+    "bancopan.com.br",
+    "bancobmg.com.br",
+    "agibank.com.br",
+    "picpay.com",
+    "bs2.com.br",
+    "bv.com.br",
 }
 
 ESG_LABELS = {
