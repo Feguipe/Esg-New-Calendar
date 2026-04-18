@@ -38,8 +38,9 @@ BANK_QUERIES = {
         "Banco Safra social",
     ],
     "xp": [
-        "XP Investimentos ESG", "XP sustentabilidade",
-        "XP verde", "XP impacto social",
+        "XP Inc ESG", "XP Inc sustentabilidade",
+        "XP Investimentos governança", "XP Investimentos diversidade",
+        "XP Inc diversidade", "XP Inc relatório ESG",
     ],
     "inter": [
         "Banco Inter ESG", "Inter sustentabilidade",
