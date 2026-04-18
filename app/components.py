@@ -5,6 +5,14 @@ from calendar import monthrange
 from config.settings import BANK_DISPLAY_NAMES, ESG_EMOJIS
 
 
+def render_search_bar() -> str:
+    return st.text_input(
+        "🔍 Buscar notícias",
+        placeholder="Digite palavra-chave (ex: carbono, diversidade...)",
+        help="Filtra por título ou resumo da notícia",
+    ).strip().lower()
+
+
 def render_sidebar_filters() -> tuple[list[str], list[str], tuple[date, date]]:
     st.sidebar.title("Filtros")
 

@@ -6,7 +6,7 @@ import streamlit as st
 from datetime import date
 
 from app.calendar_view import render_calendar
-from app.components import render_sidebar_filters
+from app.components import render_sidebar_filters, render_search_bar
 from db.database import get_connection, query_articles, initialize_db, count_articles, count_by_bank
 from config.settings import DB_PATH
 
@@ -40,6 +40,7 @@ def main():
 
     st.sidebar.metric("Total de notícias", total)
 
+    search_query = render_search_bar()
     selected_banks, selected_esg, (month_start, month_end) = render_sidebar_filters()
 
     from config.settings import BANK_DISPLAY_NAMES, BANK_COLORS
@@ -72,20 +73,31 @@ def main():
                     unsafe_allow_html=True,
                 )
 
-    with get_connection(DB_PATH) as conn:
-        articles = query_articles(
-            conn,
-            start_date=month_start,
-            end_date=month_end,
-            banks=selected_banks if selected_banks else None,
-            esg_tags=selected_esg if selected_esg else None,
-        )
+    with st.spinner("Carregando notícias..."):
+        with get_connection(DB_PATH) as conn:
+            articles = query_articles(
+                conn,
+                start_date=month_start,
+                end_date=month_end,
+                banks=selected_banks if selected_banks else None,
+                esg_tags=selected_esg if selected_esg else None,
+            )
+
+    if search_query:
+        articles = [
+            a for a in articles
+            if search_query in (a.get("titulo") or "").lower()
+            or search_query in (a.get("resumo") or "").lower()
+        ]
 
     months_pt = [
         "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
         "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro",
     ]
-    st.subheader(f"{months_pt[month_start.month - 1]} {month_start.year} — {len(articles)} notícias")
+    label = f"{months_pt[month_start.month - 1]} {month_start.year} — {len(articles)} notícias"
+    if search_query:
+        label += f' · busca: "{search_query}"'
+    st.subheader(label)
 
     render_calendar(articles, month_start, month_end)
 

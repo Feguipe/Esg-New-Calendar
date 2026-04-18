@@ -10,6 +10,7 @@ from config.settings import (
 )
 
 _DAYS_PT = ["Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"]
+_MAX_CARDS_PER_DAY = 3
 
 
 def build_month_grid(year: int, month: int) -> list[list[date | None]]:
@@ -28,6 +29,26 @@ def _bank_badge(banco_tag: str, bank_color: str) -> str:
         f'color:#fff;font-size:0.55rem;font-weight:800;margin-right:5px;'
         f'vertical-align:middle;flex-shrink:0;">{initials}</span>'
     )
+
+
+def _esg_dots(articles: list[dict]) -> str:
+    counts = {"E": 0, "S": 0, "G": 0}
+    for a in articles:
+        tag = a.get("esg_tag", "unknown")
+        if tag in counts:
+            counts[tag] += 1
+    dots = ""
+    for tag, count in counts.items():
+        if count > 0:
+            color = ESG_COLORS.get(tag, "#6c757d")
+            emoji = ESG_EMOJIS.get(tag, "")
+            dots += (
+                f'<span title="{emoji} {tag}: {count}" style="display:inline-flex;align-items:center;'
+                f'justify-content:center;width:16px;height:16px;border-radius:50%;'
+                f'background:{color};color:#fff;font-size:0.55rem;font-weight:800;'
+                f'margin-left:2px;">{count}</span>'
+            )
+    return dots
 
 
 def render_article_card(article: dict) -> str:
@@ -55,9 +76,7 @@ def render_article_card(article: dict) -> str:
         if article.get("ai_verified") else ""
     )
 
-    fonte_html = (
-        f'<div class="card-fonte">{fonte}</div>' if fonte else ""
-    )
+    fonte_html = f'<div class="card-fonte">{fonte}</div>' if fonte else ""
 
     return (
         f'<div class="esg-card" style="border-left:4px solid {bank_color};'
@@ -86,7 +105,7 @@ def render_calendar(articles: list[dict], start: date, end: date = None) -> None
                 d = date.fromisoformat(d)
             except ValueError:
                 continue
-        if d and d != today or d == today:
+        if d:
             by_date[d].append(a)
 
     grid = build_month_grid(start.year, start.month)
@@ -112,26 +131,46 @@ def render_calendar(articles: list[dict], start: date, end: date = None) -> None
 
                 if is_today:
                     num_class = "day-number today"
+                    cell_extra = "today-cell"
                 elif is_future:
                     num_class = "day-number future"
+                    cell_extra = "future-cell"
+                elif not day_articles:
+                    num_class = "day-number"
+                    cell_extra = "empty-day"
                 else:
                     num_class = "day-number"
+                    cell_extra = ""
 
-                cell_class = "calendar-cell"
-                if is_future:
-                    cell_class += " future-cell"
-                elif not day_articles:
-                    cell_class += " empty-day"
+                dots = _esg_dots(day_articles) if day_articles and not is_future else ""
+                visible = day_articles[:_MAX_CARDS_PER_DAY]
+                hidden_count = len(day_articles) - len(visible)
 
-                html = f'<div class="{cell_class}"><div class="{num_class}">{day.day}</div>'
-                for article in day_articles:
+                html = (
+                    f'<div class="calendar-cell {cell_extra}">'
+                    f'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">'
+                    f'<div class="esg-dots">{dots}</div>'
+                    f'<div class="{num_class}">{day.day}</div>'
+                    f'</div>'
+                )
+
+                for article in visible:
                     html += render_article_card(article)
-                html += "</div>"
 
+                if hidden_count > 0:
+                    html += (
+                        f'<div class="more-articles">+ {hidden_count} mais notícia{"s" if hidden_count > 1 else ""}</div>'
+                    )
+
+                html += "</div>"
                 st.markdown(html, unsafe_allow_html=True)
 
     if not articles:
+        selected_banks = [a.get("banco_tag") for a in articles]
         st.markdown(
-            '<div class="no-data">Nenhuma notícia encontrada para os filtros selecionados.</div>',
+            '<div class="no-data">'
+            '📭 Nenhuma notícia encontrada para os filtros selecionados.<br><br>'
+            '<span style="font-size:0.85rem;">Tente: ampliar o período, selecionar mais bancos ou categorias ESG.</span>'
+            '</div>',
             unsafe_allow_html=True,
         )
