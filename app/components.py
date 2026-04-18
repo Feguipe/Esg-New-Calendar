@@ -75,16 +75,9 @@ def render_month_nav() -> tuple[date, date]:
 
 def render_sidebar_filters() -> tuple[list[str], list[str]]:
     st.sidebar.markdown(
-        '<div style="display:flex;align-items:center;gap:8px;padding:12px 0 8px;">'
-        '<div style="display:flex;gap:3px;">'
-        '<span style="background:#2d6a4f;color:#fff;font-size:0.65rem;font-weight:900;'
-        'padding:3px 6px;border-radius:4px;">E</span>'
-        '<span style="background:#1d3557;color:#fff;font-size:0.65rem;font-weight:900;'
-        'padding:3px 6px;border-radius:4px;">S</span>'
-        '<span style="background:#6a0572;color:#fff;font-size:0.65rem;font-weight:900;'
-        'padding:3px 6px;border-radius:4px;">G</span>'
-        '</div>'
-        '<span style="font-size:1rem;font-weight:800;">ESG News Calendar</span>'
+        '<div style="display:flex;align-items:center;gap:10px;padding:12px 0 8px;">'
+        '<span style="font-size:1.6rem;line-height:1;">🌱</span>'
+        '<span style="font-size:1.2rem;font-weight:800;">ESG News Calendar</span>'
         '</div>',
         unsafe_allow_html=True,
     )
